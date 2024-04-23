@@ -28,11 +28,11 @@ export const ingredientsApi = createAsyncThunk(
 const IDrandom = () => self.crypto.randomUUID(); //генерация случайного идентификатора бургера
 
 const ConstructorBurgerSlice = createSlice({
-  name: 'СonstructorBurger',
+  name: 'constructorBurger',
   initialState,
   reducers: {
     addBun: (state, action: PayloadAction<TConstructorIngredient>) => {
-      //добавить булочки
+      //добавить булку
       state.constructorItems.bun = action.payload;
     },
     addIngredient: {
@@ -116,4 +116,4 @@ export const {
   ingredientMoveDown,
   ingredientMoveUp
 } = ConstructorBurgerSlice.actions;
-export const ConstructorBurger = ConstructorBurgerSlice.reducer;
+export const constructorBurger = ConstructorBurgerSlice.reducer;

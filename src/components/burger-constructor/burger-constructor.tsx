@@ -8,16 +8,15 @@ import {
 import { clear, createOrder } from '../../services/OrderSlice';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/store';
+import { getOrderData } from '../../services/OrderSlice';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  //const constructorItems = useSelector(getConstructorItems);
-  const constructorItems = useSelector(
-    (state) => state.constructorBurger.constructorItems
-  );
+  const constructorItems = useSelector(getConstructorItems);
+
   const orderRequest = false;
 
-  const orderModalData = useSelector((state) => state.order.orderData);
+  const orderModalData = useSelector(getOrderData);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

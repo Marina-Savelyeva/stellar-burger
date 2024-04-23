@@ -4,13 +4,13 @@ import {
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
-import { ConstructorBurger } from './ConstructorBurgerSlices';
+import { constructorBurger } from './ConstructorBurgerSlices';
 import { Feed } from './FeedSlice';
 import { Order } from './OrderSlice';
 
 const rootReducer = combineReducers({
   // Заменить на импорт настоящего редьюсера
-  constructorBurger: ConstructorBurger,
+  constructorBurger: constructorBurger,
   order: Order
 });
 

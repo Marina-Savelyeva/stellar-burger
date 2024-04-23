@@ -19,6 +19,9 @@ import {
   useNavigate,
   BrowserRouter
 } from 'react-router-dom';
+import { useDispatch, useSelector } from '../../services/store';
+import { useEffect } from 'react';
+import { ingredientsApi } from '../../services/ConstructorBurgerSlices';
 
 export const AppRoute = () => {
   //для модалки
@@ -30,6 +33,12 @@ export const AppRoute = () => {
   const Back = () => {
     navigate(-1);
   };
+
+  const dispatch = useDispatch();
+  //получаем ингридиенты с ссервера
+  useEffect(() => {
+    dispatch(ingredientsApi());
+  }, [dispatch]);
 
   return (
     <>
@@ -50,7 +59,7 @@ export const AppRoute = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title={'1'} onClose={Back}>
+              <Modal title={'Информация о заказе'} onClose={Back}>
                 <OrderInfo />
               </Modal>
             }
@@ -58,7 +67,7 @@ export const AppRoute = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title={'2'} onClose={Back}>
+              <Modal title={'Ингредиент'} onClose={Back}>
                 <IngredientDetails />
               </Modal>
             }
@@ -66,7 +75,7 @@ export const AppRoute = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal title={'3'} onClose={Back}>
+              <Modal title={'Информация о заказе'} onClose={Back}>
                 <OrderInfo />
               </Modal>
             }

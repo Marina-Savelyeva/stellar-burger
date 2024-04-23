@@ -2,7 +2,7 @@ import { forwardRef, useMemo } from 'react';
 import { TIngredientsCategoryProps } from './type';
 import { TIngredient } from '@utils-types';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
-import { getConstructorItems } from 'src/services/ConstructorBurgerSlices';
+import { getConstructorItems } from '../../services/ConstructorBurgerSlices';
 import { useSelector } from '../../services/store';
 
 export const IngredientsCategory = forwardRef<
@@ -10,10 +10,7 @@ export const IngredientsCategory = forwardRef<
   TIngredientsCategoryProps
 >(({ title, titleRef, ingredients }, ref) => {
   /** TODO: взять переменную из стора */
-  //const burgerConstructor = useSelector(getConstructorItems);
-  const burgerConstructor = useSelector(
-    (state) => state.constructorBurger.constructorItems
-  );
+  const burgerConstructor = useSelector(getConstructorItems);
 
   const ingredientsCounters = useMemo(() => {
     const { bun, ingredients } = burgerConstructor;
