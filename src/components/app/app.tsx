@@ -20,7 +20,7 @@ import {
   BrowserRouter
 } from 'react-router-dom';
 
-const AppRoute = () => {
+export const AppRoute = () => {
   //для модалки
   const location = useLocation();
   const backgroundLocation = location.state?.backgroundLocation;
@@ -79,8 +79,10 @@ const AppRoute = () => {
 
 const App = () => (
   <div className={styles.app}>
-    <AppHeader />
-    <AppRoute />
+    <BrowserRouter>
+      <AppHeader />
+      <AppRoute />
+    </BrowserRouter>
   </div>
 );
 
