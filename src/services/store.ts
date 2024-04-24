@@ -5,13 +5,16 @@ import {
   useSelector as selectorHook
 } from 'react-redux';
 import { constructorBurger } from './ConstructorBurgerSlices';
-import { Feed } from './FeedSlice';
+import { feed } from './FeedSlice';
 import { Order } from './OrderSlice';
+import { user } from './UserSlice';
 
 const rootReducer = combineReducers({
   // Заменить на импорт настоящего редьюсера
   constructorBurger: constructorBurger,
-  order: Order
+  order: Order,
+  user: user,
+  feed: feed
 });
 
 const store = configureStore({

@@ -19,14 +19,16 @@ import {
   useNavigate,
   BrowserRouter
 } from 'react-router-dom';
-import { useDispatch, useSelector } from '../../services/store';
+import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { ingredientsApi } from '../../services/ConstructorBurgerSlices';
+import { userProfile } from '../../services/UserSlice';
+import { ProtectedRoute } from '../ProtectedRoute';
 
 export const AppRoute = () => {
   //для модалки
   const location = useLocation();
-  const backgroundLocation = location.state?.backgroundLocation;
+  const backgroundLocation = location.state && location.state.background;
 
   //для навигации назад, на -1
   const navigate = useNavigate();
@@ -35,9 +37,10 @@ export const AppRoute = () => {
   };
 
   const dispatch = useDispatch();
-  //получаем ингридиенты с ссервера
+  //получаем ингридиенты с сервера и акк
   useEffect(() => {
     dispatch(ingredientsApi());
+    dispatch(userProfile());
   }, [dispatch]);
 
   return (
@@ -45,12 +48,54 @@ export const AppRoute = () => {
       <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/forgot-password' element={<ForgotPassword />} />
-        <Route path='/reset-password' element={<ResetPassword />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/profile/orders' element={<ProfileOrders />} />
+        <Route
+          path='/login'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/register'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/forgot-password'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <ForgotPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/reset-password'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <ResetPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/profile'
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/profile/orders'
+          element={
+            <ProtectedRoute>
+              <ProfileOrders />
+            </ProtectedRoute>
+          }
+        />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
 
@@ -67,7 +112,7 @@ export const AppRoute = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title={'Ингредиент'} onClose={Back}>
+              <Modal title={'Детали ингредиента'} onClose={Back}>
                 <IngredientDetails />
               </Modal>
             }
@@ -75,9 +120,11 @@ export const AppRoute = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal title={'Информация о заказе'} onClose={Back}>
-                <OrderInfo />
-              </Modal>
+              <ProtectedRoute>
+                <Modal title={'Информация о моем заказе'} onClose={Back}>
+                  <OrderInfo />
+                </Modal>
+              </ProtectedRoute>
             }
           />
         </Routes>

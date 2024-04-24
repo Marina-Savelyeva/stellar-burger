@@ -1,5 +1,5 @@
 import { getFeedsApi } from '@api';
-import { PayloadAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 
 export const feedsApi = createAsyncThunk(
@@ -27,7 +27,6 @@ const FeedSlice = createSlice({
   reducers: {},
   selectors: {
     getFeed: (state) => state.feeds,
-    getLoading: (state) => state.isLoading,
     getTodayTotal: (state) => state.todayTotal,
     getTotal: (state) => state.total
   },
@@ -41,8 +40,8 @@ const FeedSlice = createSlice({
         //если без ошибок
         state.isLoading = false;
         state.feeds = action.payload.orders;
-        state.todayTotal = action.payload.totalToday;
         state.total = action.payload.total;
+        state.todayTotal = action.payload.totalToday;
       }),
       builder.addCase(feedsApi.rejected, (state) => {
         //если с ошибкой
@@ -51,6 +50,5 @@ const FeedSlice = createSlice({
   }
 });
 
-export const { getFeed, getLoading, getTodayTotal, getTotal } =
-  FeedSlice.selectors;
-export const Feed = FeedSlice.reducer;
+export const { getFeed, getTodayTotal, getTotal } = FeedSlice.selectors;
+export const feed = FeedSlice.reducer;

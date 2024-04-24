@@ -1,13 +1,8 @@
-import { PayloadAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getOrderByNumberApi, getOrdersApi, orderBurgerApi } from '@api';
 import { TOrder } from '@utils-types';
 
-const getOrders = createAsyncThunk('orders/getOrders', getOrdersApi);
-
-/*export const createOrder = createAsyncThunk(
-  'orders/createOrder',
-  orderBurgerApi
-);*/
+export const getOrders = createAsyncThunk('orders/getOrders', getOrdersApi);
 
 export const createOrder = createAsyncThunk(
   'order/createOrder',
@@ -17,7 +12,7 @@ export const createOrder = createAsyncThunk(
   }
 );
 
-const getOrderByNumber = createAsyncThunk(
+export const getOrderByNumber = createAsyncThunk(
   'order/getOrderByNumberApi',
   getOrderByNumberApi
 );
@@ -25,14 +20,12 @@ const getOrderByNumber = createAsyncThunk(
 type IOrder = {
   order: TOrder[];
   isLoading: boolean;
-  request: boolean;
   orderData: TOrder | null;
 };
 
 const initialState: IOrder = {
   order: [],
   isLoading: false,
-  request: false,
   orderData: null
 };
 
@@ -46,32 +39,30 @@ const OrderSlice = createSlice({
   },
   selectors: {
     getOrder: (state) => state.order,
-    getOrderData: (state) => state.orderData,
-    getRequest: (state) => state.request,
-    getLoading: (state) => state.isLoading
+    getOrderData: (state) => state.orderData
   },
   extraReducers: (builder) => {
     builder.addCase(getOrders.pending, (state) => {
       //перед
-      state.request = true;
+      state.isLoading = true;
     }),
       builder.addCase(getOrders.fulfilled, (state, action) => {
-        state.request = false;
+        state.isLoading = false;
         state.order = action.payload;
       }),
       builder.addCase(getOrders.rejected, (state) => {
-        state.request = false;
+        state.isLoading = false;
       }),
       builder.addCase(createOrder.pending, (state) => {
         //перед
-        state.request = true;
+        state.isLoading = true;
       }),
       builder.addCase(createOrder.fulfilled, (state, action) => {
-        state.request = false;
+        state.isLoading = false;
         state.orderData = action.payload.order;
       }),
       builder.addCase(createOrder.rejected, (state) => {
-        state.request = false;
+        state.isLoading = false;
       }),
       builder.addCase(getOrderByNumber.pending, (state) => {
         //перед
@@ -82,13 +73,11 @@ const OrderSlice = createSlice({
         state.order = action.payload.orders;
       }),
       builder.addCase(getOrderByNumber.rejected, (state) => {
-        //перед
         state.isLoading = false;
       });
   }
 });
 
-export const { getOrder, getOrderData, getRequest, getLoading } =
-  OrderSlice.selectors;
+export const { getOrder, getOrderData } = OrderSlice.selectors;
 export const { clear } = OrderSlice.actions;
 export const Order = OrderSlice.reducer;

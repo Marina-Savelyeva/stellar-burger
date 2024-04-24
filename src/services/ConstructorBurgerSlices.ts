@@ -84,7 +84,7 @@ const ConstructorBurgerSlice = createSlice({
     }
   },
   selectors: {
-    getIngredient: (state) => state.ingredients,
+    getIngredients: (state) => state.ingredients,
     getConstructorItems: (state) => state.constructorItems,
     getIsLoading: (state) => state.isLoading
   },
@@ -106,7 +106,7 @@ const ConstructorBurgerSlice = createSlice({
   }
 });
 
-export const { getIngredient, getConstructorItems, getIsLoading } =
+export const { getIngredients, getConstructorItems, getIsLoading } =
   ConstructorBurgerSlice.selectors;
 export const {
   addBun,

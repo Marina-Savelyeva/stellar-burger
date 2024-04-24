@@ -9,20 +9,27 @@ import { clear, createOrder } from '../../services/OrderSlice';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/store';
 import { getOrderData } from '../../services/OrderSlice';
+import { getRequestFromUser, getIsAuth } from '../../services/UserSlice';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const constructorItems = useSelector(getConstructorItems);
 
-  const orderRequest = false;
+  const orderRequest = useSelector(getRequestFromUser);
 
   const orderModalData = useSelector(getOrderData);
+  const authUser = useSelector(getIsAuth);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+
+    if (!authUser) {
+      navigate('/login');
+    }
+
     const order: string[] = [
       constructorItems.bun!._id,
       ...constructorItems.ingredients.map(
@@ -36,7 +43,7 @@ export const BurgerConstructor: FC = () => {
   const closeOrderModal = () => {
     dispatch(clear());
     dispatch(clearIngredients());
-    navigate('/');
+    navigate(-1);
   };
 
   const price = useMemo(
@@ -48,8 +55,6 @@ export const BurgerConstructor: FC = () => {
       ),
     [constructorItems]
   );
-
-  //return null;
 
   return (
     <BurgerConstructorUI
