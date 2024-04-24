@@ -9,13 +9,14 @@ import { clear, createOrder } from '../../services/OrderSlice';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/store';
 import { getOrderData } from '../../services/OrderSlice';
-import { getRequestFromUser, getIsAuth } from '../../services/UserSlice';
+import { getIsAuth } from '../../services/UserSlice';
+import { getLoading } from '../../services/OrderSlice';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const constructorItems = useSelector(getConstructorItems);
 
-  const orderRequest = useSelector(getRequestFromUser);
+  const orderRequest = useSelector(getLoading);
 
   const orderModalData = useSelector(getOrderData);
   const authUser = useSelector(getIsAuth);
@@ -43,7 +44,7 @@ export const BurgerConstructor: FC = () => {
   const closeOrderModal = () => {
     dispatch(clear());
     dispatch(clearIngredients());
-    navigate(-1);
+    navigate('/');
   };
 
   const price = useMemo(
