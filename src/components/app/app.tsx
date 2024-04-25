@@ -97,6 +97,32 @@ export const AppRoute = () => {
           }
         />
         <Route path='*' element={<NotFound404 />} />
+        <Route
+          path='/ingredients/:id'
+          element={
+            <Modal title={'Детали ингредиента'} onClose={Back}>
+              <IngredientDetails />
+            </Modal>
+          }
+        />
+        <Route
+          path='/feed/:number'
+          element={
+            <Modal title={'Информация о заказе'} onClose={Back}>
+              <OrderInfo />
+            </Modal>
+          }
+        />
+        <Route
+          path='/profile/orders/:number'
+          element={
+            <ProtectedRoute>
+              <Modal title={'Информация о моем заказе'} onClose={Back}>
+                <OrderInfo />
+              </Modal>
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       {backgroundLocation && (
