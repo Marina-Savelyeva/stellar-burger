@@ -11,6 +11,21 @@ import {
 } from './ConstructorBurgerSlices';
 
 describe('constructorBurger reducers добавление и удаление', () => {
+  const mockIngredient = {
+    _id: '643d69a5c3f7b9001cfa0941',
+    name: 'Биокотлета из марсианской Магнолии',
+    type: 'main',
+    proteins: 420,
+    fat: 142,
+    carbohydrates: 242,
+    calories: 4242,
+    price: 424,
+    image: 'https://code.s3.yandex.net/react/code/meat-01.png',
+    image_mobile: 'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
+    image_large: 'https://code.s3.yandex.net/react/code/meat-01-large.png',
+    __v: 0
+  };
+
   it('addBun', () => {
     const bun = {
       calories: 420,
@@ -30,20 +45,6 @@ describe('constructorBurger reducers добавление и удаление', 
   });
 
   it('addIngredient for non-bun type', () => {
-    const mockIngredient = {
-      _id: '643d69a5c3f7b9001cfa0941',
-      name: 'Биокотлета из марсианской Магнолии',
-      type: 'main',
-      proteins: 420,
-      fat: 142,
-      carbohydrates: 242,
-      calories: 4242,
-      price: 424,
-      image: 'https://code.s3.yandex.net/react/code/meat-01.png',
-      image_mobile: 'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
-      image_large: 'https://code.s3.yandex.net/react/code/meat-01-large.png',
-      __v: 0
-    };
     const state = constructorBurger(
       initialState,
       addIngredient(mockIngredient)
@@ -54,20 +55,6 @@ describe('constructorBurger reducers добавление и удаление', 
   });
 
   it('deleteIngredient', () => {
-    const mockIngredient = {
-      _id: '643d69a5c3f7b9001cfa0941',
-      name: 'Биокотлета из марсианской Магнолии',
-      type: 'main',
-      proteins: 420,
-      fat: 142,
-      carbohydrates: 242,
-      calories: 4242,
-      price: 424,
-      image: 'https://code.s3.yandex.net/react/code/meat-01.png',
-      image_mobile: 'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
-      image_large: 'https://code.s3.yandex.net/react/code/meat-01-large.png',
-      __v: 0
-    };
     let state = constructorBurger(initialState, addIngredient(mockIngredient));
     state = constructorBurger(state, deleteIngredient(mockIngredient));
     expect(state.constructorItems.ingredients).not.toContainEqual(
@@ -76,21 +63,6 @@ describe('constructorBurger reducers добавление и удаление', 
   });
 
   it('clearIngredients', () => {
-    const mockIngredient = {
-      _id: '643d69a5c3f7b9001cfa0941',
-      name: 'Биокотлета из марсианской Магнолии',
-      type: 'main',
-      proteins: 420,
-      fat: 142,
-      carbohydrates: 242,
-      calories: 4242,
-      price: 424,
-      image: 'https://code.s3.yandex.net/react/code/meat-01.png',
-      image_mobile: 'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
-      image_large: 'https://code.s3.yandex.net/react/code/meat-01-large.png',
-      __v: 0
-    };
-
     let state = constructorBurger(initialState, addIngredient(mockIngredient));
     state = constructorBurger(state, clearIngredients());
     expect(state.constructorItems.bun).toBeNull();

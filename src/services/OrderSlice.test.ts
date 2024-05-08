@@ -2,7 +2,7 @@ import { Order, clear, initialState, createOrder,getOrders, getOrderByNumber } f
 
 describe('OrderSlice reducers', () => {
   test('clear correctly', () => {
-    const initialState = {
+    const state = {
       order: [],
       isLoading: false,
       orderData: {
@@ -15,8 +15,8 @@ describe('OrderSlice reducers', () => {
         "ingredients": ['product1', 'product2']
       }
     };
-    const state = Order(initialState, clear());
-    expect(state.orderData).toBeNull();
+    const Newstate = Order(state, clear());
+    expect(Newstate.orderData).toBeNull();
   });
 });
 

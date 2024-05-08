@@ -1,8 +1,11 @@
 import Cypress from 'cypress';
 
+const testUrl = 'http://localhost:4000';
+const bun = `[data-cy ='643d69a5c3f7b9001cfa093c']`;
+
 describe('проверяем доступность приложения', function() {
-  it('сервис должен быть доступен по адресу localhost:4000', function() {
-      cy.visit('http://localhost:4000'); 
+  it('сервис должен быть доступен по адресу testUrl', function() {
+      cy.visit(testUrl); 
   });
 });
 
@@ -11,7 +14,7 @@ describe('Проверяем целиком приложение', () => {
     cy.intercept('GET', 'api/ingredients', {fixture: 'ingredients.json'}).as('getIngredients'); //Настроен перехват запроса на эндпоинт 'api/ingredients’
     cy.intercept('GET', 'api/auth/user', {fixture: 'authUser.json'}).as('getUser');;
     cy.intercept('POST', 'api/orders', {fixture: 'order.json'}).as('getOrder');;
-    cy.visit('http://localhost:4000'); //Открываем веб-страницу по адресу
+    cy.visit(testUrl); //Открываем веб-страницу по адресу
   })
 
   describe('дополнительные проверки', function() {
@@ -28,7 +31,7 @@ describe('Проверяем целиком приложение', () => {
 
   describe('проверяем кнопки добавления', function() {
     it('Булка (bun)', () => {
-      cy.get(`[data-cy ='643d69a5c3f7b9001cfa093c']`).children('button').click();
+      cy.get(bun).children('button').click();
     });
     it('Начинка (main)', () => {
       cy.get(`[data-cy ='643d69a5c3f7b9001cfa0941']`).children('button').click();
@@ -40,11 +43,11 @@ describe('Проверяем целиком приложение', () => {
 
   describe('проверяем работу модалок', function() {
     it('Открытие модального окна ингредиента', () => {
-      cy.get(`[data-cy ='643d69a5c3f7b9001cfa093c']`).click();
+      cy.get(bun).click();
       cy.get(`[data-cy ='modal']`).should('exist');//проверка, что существует (проверяет наличие элемента на странице)
     });
     it('Отображение в открытом модальном окне данных именно того ингредиента, по которому произошел клик.', () => {
-      cy.get(`[data-cy ='643d69a5c3f7b9001cfa093c']`).click();
+      cy.get(bun).click();
       cy.get(`[data-cy ='modal']`).should('exist');//проверка, что существует (проверяет наличие элемента на странице)
       cy.get('[data-cy="image-ingredient"]').should('be.visible');
       cy.get(`[data-cy ='name-ingredient']`).should('have.text', "Краторная булка N-200i");
@@ -54,12 +57,12 @@ describe('Проверяем целиком приложение', () => {
       cy.get(`[data-cy ='carbohydrates-ingredient']`).should('have.text', "53");
     });
     it('Закрытие модального окна ингредиента по крестику', () => {
-      cy.get(`[data-cy ='643d69a5c3f7b9001cfa093c']`).click();
+      cy.get(bun).click();
       cy.get(`[data-cy ='buttonOnClose']`).click();
       cy.get(`[data-cy ='modal']`).should('not.exist');//проверка, что не существует
     });
     it('Закрытие модального окна ингредиента по оверлею', () => {
-      cy.get(`[data-cy ='643d69a5c3f7b9001cfa093c']`).click();
+      cy.get(bun).click();
       cy.get(`[data-cy ='modal-overlay']`).click({force:true});//Опция {force:true} используется для принудительного выполнения действия, игнорируя любые препятствия, которые могут возникнуть.
       cy.get(`[data-cy ='modal']`).should('not.exist');//проверка, что не существует
     });
@@ -87,7 +90,4 @@ describe('Проверяем целиком приложение', () => {
       cy.contains('Выберите начинку').should('exist');//проверка, что пусто
     });
   });
-
-
-  
 });

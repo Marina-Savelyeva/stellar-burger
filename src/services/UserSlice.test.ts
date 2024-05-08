@@ -2,11 +2,11 @@ import {user, userLogOut, initialState, logIn,logOut, userProfile, updateUserPro
 
 describe('UserSlice reducers', () => {
   test('userLogOut correctly', () => {
-    const initialState = {
+    const state = {
       profileUser: { name: 'Marina', email: 'mar.sav.18@yandex.ru' },
       isAuth: true
     };
-    const newState = user(initialState, userLogOut());
+    const newState = user(state, userLogOut());
     expect(newState.profileUser.name).toBe('');
     expect(newState.profileUser.email).toBe('');
     expect(newState.isAuth).toBe(false);
