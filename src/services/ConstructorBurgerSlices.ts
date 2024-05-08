@@ -1,5 +1,10 @@
-import { getIngredientsApi } from '@api';
-import { PayloadAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getIngredientsApi } from '../utils/burger-api';
+import {
+  PayloadAction,
+  createSlice,
+  createAsyncThunk,
+  nanoid
+} from '@reduxjs/toolkit';
 import { TIngredient, TConstructorIngredient } from '@utils-types';
 
 export type TConstructorBurger = {
@@ -11,7 +16,7 @@ export type TConstructorBurger = {
   };
 };
 
-const initialState: TConstructorBurger = {
+export const initialState: TConstructorBurger = {
   ingredients: [],
   isLoading: false,
   constructorItems: {
@@ -25,7 +30,7 @@ export const ingredientsApi = createAsyncThunk(
   getIngredientsApi
 ); //асинхронная операция
 
-const IDrandom = () => self.crypto.randomUUID(); //генерация случайного идентификатора бургера
+//const IDrandom = () => self.crypto.randomUUID(); //генерация случайного идентификатора бургера
 
 const ConstructorBurgerSlice = createSlice({
   name: 'constructorBurger',
@@ -43,9 +48,10 @@ const ConstructorBurgerSlice = createSlice({
           state.constructorItems.ingredients.push(payload);
         }
       },
-      prepare: (ingredient: TIngredient) => ({
-        payload: { ...ingredient, id: IDrandom() }
-      })
+      prepare: (ingredient: TIngredient) => {
+        const id = nanoid();
+        return { payload: { ...ingredient, id } };
+      }
     },
     deleteIngredient: (state, action) => {
       //удалить ингридиент
@@ -60,27 +66,27 @@ const ConstructorBurgerSlice = createSlice({
       state.constructorItems.ingredients = [];
       state.isLoading = false;
     },
-    ingredientMoveUp: (state, action) => {
-      const index = state.constructorItems.ingredients[action.payload];
-      const previousIngredient =
-        state.constructorItems.ingredients[action.payload - 1];
-      state.constructorItems.ingredients.splice(
-        action.payload - 1,
-        2,
-        index,
-        previousIngredient
-      );
+    ingredientMoveUp: (state, action: PayloadAction<number>) => {
+      const { ingredients } = state.constructorItems;
+      const index = action.payload;
+      if (index > 0 && index < ingredients.length) {
+        const newIngredients = [...ingredients];
+        [newIngredients[index], newIngredients[index - 1]] = [
+          newIngredients[index - 1],
+          newIngredients[index]
+        ];
+        state.constructorItems.ingredients = newIngredients;
+      }
     },
-    ingredientMoveDown: (state, action) => {
-      const index = state.constructorItems.ingredients[action.payload];
-      const nextIngredient =
-        state.constructorItems.ingredients[action.payload + 1];
-      state.constructorItems.ingredients.splice(
-        action.payload,
-        2,
-        nextIngredient,
-        index
-      );
+    ingredientMoveDown: (state, action: PayloadAction<number>) => {
+      const { ingredients } = state.constructorItems;
+      const index = action.payload;
+      if (index >= 0 && index < ingredients.length - 1) {
+        [ingredients[index], ingredients[index + 1]] = [
+          ingredients[index + 1],
+          ingredients[index]
+        ];
+      }
     }
   },
   selectors: {

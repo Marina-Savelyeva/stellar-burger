@@ -9,7 +9,7 @@ import { feed } from './FeedSlice';
 import { Order } from './OrderSlice';
 import { user } from './UserSlice';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   // Заменить на импорт настоящего редьюсера
   constructorBurger: constructorBurger,
   order: Order,
@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   feed: feed
 });
 
-const store = configureStore({
+export const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production'
 });

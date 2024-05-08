@@ -6,7 +6,7 @@ import {
   logoutApi,
   registerUserApi,
   updateUserApi
-} from '@api';
+} from '../utils/burger-api';
 import { TUser } from '@utils-types';
 import { setCookie, deleteCookie } from '../../src/utils/cookie';
 
@@ -53,7 +53,7 @@ type IUser = {
   isAuth: boolean;
 };
 
-const initialState: IUser = {
+export const initialState: IUser = {
   profileUser: { name: '', email: '' },
   isAuth: false
 };
