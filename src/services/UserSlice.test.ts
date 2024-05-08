@@ -1,4 +1,4 @@
-import {user, userLogOut, initialState, logIn,logOut, userProfile, updateUserProfile } from '../services/UserSlice';
+import {user, userLogOut, initialState, logIn,logOut, userProfile, updateUserProfile, registerUser } from '../services/UserSlice';
 
 describe('UserSlice reducers', () => {
   test('userLogOut correctly', () => {
@@ -30,8 +30,28 @@ describe('UserSlice Extrareducers', () => {
   });
 
   it('logIn.rejected', () => {
-    const newState = user(initialState, { type: logIn.pending.type });
+    const newState = user(initialState, { type: logIn.rejected.type });
     expect(newState.isAuth).toBe(false);
+  });
+
+  it('registerUser.pending', () => {
+    const nextState = user(initialState, { type: registerUser.pending.type });
+    expect(nextState.isAuth).toBe(false);
+  });
+
+  it('registerUser.fulfilled', () => {
+    const fulfilledAction = {
+      type: registerUser.fulfilled.type,
+      payload: { user: { name: 'Marina', email: 'mar.sav.18@yandex.ru' } }
+    };
+    const state = user(initialState, fulfilledAction);
+    expect(state.isAuth).toBe(true);
+    expect(state.profileUser).toBe(fulfilledAction.payload.user);
+  });
+
+  it('registerUser.rejected', () => {
+    const nextState = user(initialState, { type: registerUser.rejected.type });
+    expect(nextState.isAuth).toBe(false);
   });
 
   it('logOut.pending', () => {

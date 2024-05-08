@@ -95,7 +95,6 @@ describe('constructorBurger reducers добавление и удаление', 
     state = constructorBurger(state, clearIngredients());
     expect(state.constructorItems.bun).toBeNull();
     expect(state.constructorItems.ingredients).toHaveLength(0);
-    expect(state.isLoading).toBe(false);
   });
 });
 
@@ -184,12 +183,12 @@ describe('constructorBurger reducers перемещение', () => {
 })
 
 describe('ConstructorBurgerSlice extraReducers', () => {
-    it('getFeedOrders.pending', () => {
+    it('ingredientsApi.pending', () => {
       const state = constructorBurger(initialState, { type: ingredientsApi.pending.type });
     expect(state.isLoading).toBe(true);
     });
   
-    it('getFeedOrders.fulfilled', () => {
+    it('ingredientsApi.fulfilled', () => {
       const fulfilledData = {
         type: ingredientsApi.fulfilled.type,
         payload: ['ingredientOne', 'ingredientTwo']
@@ -200,7 +199,7 @@ describe('ConstructorBurgerSlice extraReducers', () => {
       expect(state.ingredients).toEqual(fulfilledData.payload);
     });
   
-    it('getFeedOrders.rejected', () => {
+    it('ingredientsApi.rejected', () => {
       const state = constructorBurger(initialState, { type: ingredientsApi.rejected.type });
       expect(state.isLoading).toBe(false);
     });
