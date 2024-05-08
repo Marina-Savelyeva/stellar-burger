@@ -9,7 +9,7 @@ describe('FeedSlice extraReducers', () => {
 
   test('feedsApi.fulfilled ', () => {
     const mockPayload = {
-      orders: ['order1', 'order11'],
+      orders: ['order1', 'order101'],
       total: 10,
       totalToday: 10
     };

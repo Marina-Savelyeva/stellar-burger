@@ -27,7 +27,7 @@ describe('OrderSlice Extrareducers', () => {
   });
 
   it('getOrders.fulfilled', () => {
-      const action = { type: getOrders.fulfilled.type, payload: ['order 1', 'order 2'] };
+      const action = { type: getOrders.fulfilled.type, payload: ['order 101'] };
       const state = Order(initialState, action);
       expect(state.isLoading).toBe(false);
       expect(state.order).toEqual(action.payload);
@@ -44,7 +44,7 @@ describe('OrderSlice Extrareducers', () => {
   });
 
   it('createOrder.fulfilled', () => {
-      const action = { type: createOrder.fulfilled.type, payload: { order: { number: '1' } } };
+      const action = { type: createOrder.fulfilled.type, payload: { order: { number: '101' } } };
       const state = Order(initialState, action);
       expect(state.isLoading).toBe(false);
       expect(state.orderData?.number).toBe(action.payload.order.number);

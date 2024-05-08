@@ -164,11 +164,9 @@ describe('constructorBurger reducers перемещение', () => {
         stateWithIngredients,
         ingredientMoveDown(0) 
       );
-      expect(nextState.constructorItems.ingredients[0]).toEqual(ingredients[1]); 
-      expect(nextState.constructorItems.ingredients[1]).toEqual(ingredients[0]); 
-      expect(nextState.constructorItems.ingredients[2]).toEqual(ingredients[2]);
+      expect(nextState.constructorItems.ingredients).toEqual([ingredients[1], ingredients[0], ingredients[2]]);
   })
-  
+
   it('ingredientMoveUp', () => {
     const stateWithIngredients = {
       ...initialState,
@@ -181,9 +179,7 @@ describe('constructorBurger reducers перемещение', () => {
       stateWithIngredients,
       ingredientMoveUp(1) 
     );
-    expect(nextState.constructorItems.ingredients[0]).toEqual(ingredients[1]); 
-    expect(nextState.constructorItems.ingredients[1]).toEqual(ingredients[0]); 
-    expect(nextState.constructorItems.ingredients[2]).toEqual(ingredients[2]);
+    expect(nextState.constructorItems.ingredients).toEqual([ingredients[1], ingredients[0], ingredients[2]]);
 })
 })
 
